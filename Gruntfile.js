@@ -26,6 +26,20 @@ module.exports = function(grunt) {
                 src: "src/framework.js",
                 dest: "dist/<%=pkg.name%>-<%=pkg.version%>.min.js"
             }
+        },
+
+        /**
+         * 新增自动化插件
+         * @since 1.0.0
+         */
+        watch: {
+            build: {
+                files: ["src/*.js"],
+                tasks: ["uglify"],
+                options: {
+                    spawn: false
+                }
+            }
         }
     });
 
@@ -36,8 +50,14 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-contrib-uglify");
 
     /**
+     * 使用Watch插件
+     * @since 1.0.0
+     */
+    grunt.loadNpmTasks("grunt-contrib-watch");
+
+    /**
      * 在执行grunt命令的时候自动执行uglify插件
      * @since 1.0.0
      */
-    grunt.registerTask("default", ["uglify"]);
+    grunt.registerTask("default", ["uglify", "watch"]);
 };
