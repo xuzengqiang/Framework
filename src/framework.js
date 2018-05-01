@@ -6,10 +6,9 @@
  * @version 1.0.0
  */
 (function(global, factory) {
-	"use strict";
-
 	factory(global);
 })(typeof window !== "undefined" ? window : this, function(window) {
+	"use strict";
 	var document = window.document;
 	var location = window.location;
 	var rint = /^[1-9]\d*$/;
@@ -50,6 +49,13 @@
 	Framework.isFunction = function(obj) {
 		return toString.call(obj) === "[object Function]";
 	};
+
+	/**
+	 * 判断是否为一个纯粹的对象
+	 * @param {mixed} obj - 需要验证的对象
+	 * @since 1.0.0
+	 */
+	Framework.isPlainObject = function(obj) {};
 
 	/**
 	 * 类的创建,并自动执行initialize()方法

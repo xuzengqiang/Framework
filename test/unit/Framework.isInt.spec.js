@@ -14,15 +14,19 @@ describe("Framework.isInt", function() {
 		expect(Framework.isInt(123.0)).toEqual(true);
 	});
 
+	it("123.0001", function() {
+		expect(Framework.isInt(123.0001)).toEqual(false);
+	});
+
+	it("'123.0.0'", function() {
+		expect(Framework.isInt("123.0.0")).toEqual(false);
+	});
+
 	it("123.1", function() {
 		expect(Framework.isInt(123.1)).toEqual(false);
 	});
 
 	it("'123'", function() {
 		expect(Framework.isInt("123")).toEqual(true);
-	});
-
-	it("isFunction", function() {
-		expect(Framework.isFunction(function() {})).toEqual(true);
 	});
 });
