@@ -14,7 +14,10 @@
 	var location = window.location;
 	var rint = /^[1-9]\d*$/;
 	var objProto = Object.prototype;
+	var arrayProto = Array.prototype;
 	var toString = objProto.toString;
+	var slice = arrayProto.slice;
+	var NOOP = function() {};
 	var Framework = {};
 
 	/**
@@ -33,10 +36,50 @@
 	 */
 	Framework.isNumber = function(number) {
 		return (
-			(toString.call(number) === "[Object Number]" ||
-				toString.call(number) === "[Object String]") &&
+			(toString.call(number) === "[object Number]" ||
+				toString.call(number) === "[object String]") &&
 			!isNaN(number - parseFloat(number))
 		);
+	};
+
+	/**
+	 * 判断是否为Function
+	 * @param {mixed} obj - 需要验证的对象
+	 * @since 1.0.0
+	 */
+	Framework.isFunction = function(obj) {
+		return toString.call(obj) === "[object Function]";
+	};
+
+	/**
+	 * 类的创建,并自动执行initialize()方法
+	 * @date 2016-11-18 10:26:12
+	 * @param {Object} [Super] - 需要继承的父类
+	 * @param {Object} [protos] - 原型方法
+	 * @param {Object} [staticProtos] - 静态方法.
+	 * @return 如果返回false,那么表示对象创建失败.
+	 * @since 1.0.0
+	 */
+	Framework.create = function(Super, protos, staticProtos) {
+		var Class = function FrameworkClass(args) {
+			if (this instanceof _Class) {
+				this.initialize = Framework.isFunction(this.initialize)
+					? this.initialize
+					: NOOP;
+
+				return this.initialize.apply(
+					this,
+					args && args.hasOwnProperty("callee") ? args : arguments
+				);
+			}
+			return new FrameworkClass(arguments);
+		};
+
+		Class.extend = function() {};
+		Class.prototype.extend = function() {};
+		Class.prototype.constructor = Class;
+
+		return Class;
 	};
 
 	/**
