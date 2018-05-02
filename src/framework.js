@@ -22,6 +22,21 @@
 	var Framework = {};
 
 	/**
+	 * 指定类型的判断
+	 * @author xuzengqiang
+	 * @date 2018-5-3 00:23:02
+	 * @since 1.0.0
+	 * @description curry
+	 * @example
+	 * Framework.isString = Framework.isType("String");
+	 */
+	Framework.isType = function(type) {
+		return function(obj) {
+			return toString.call(obj) === "[object " + type + "]";
+		};
+	};
+
+	/**
 	 * 判断是否为正整数
 	 * @param {mixed} number - 需要验证的数据
 	 * @since 1.0.0
@@ -46,15 +61,20 @@
 	 * @param {mixed} obj - 需要验证的对象
 	 * @since 1.0.0
 	 */
-	Framework.isFunction = function(obj) {
-		return toString.call(obj) === "[object Function]";
-	};
+	Framework.isFunction = Framework.isType("Function");
+
+	/**
+	 * 判断是否为Array
+	 * @param {mixed} array - 判断是否为数组
+	 * @since 1.0.0
+	 */
+	Framework.isArray = Array.isArray || Framework.isType("Array");
 
 	/**
 	 * 判断是否为一个纯粹的对象
 	 * @param {mixed} obj - 需要验证的对象
 	 * @since 1.0.0
-	 * @see {jQuery.isPlainObject}
+	 * @see jQuery.isPlainObject
 	 */
 	Framework.isPlainObject = function(obj) {
 		var proto, Ctor;
@@ -70,6 +90,72 @@
 
 		Ctor = hasOwnProperty.call(proto, "constructor") && proto.constructor;
 		return typeof Ctor === "function" && hasOwnProperty.toString.call(Ctor) === hasOwnProperty.toString.call(Object);
+	};
+
+	/**
+	 * 对象拷贝
+	 * @author xuzengqiang
+	 * @date 2016-10-27 21:22:50
+	 * @since 1.0.0
+	 * @see jQuery.extend
+	 */
+	Framework.extend = function() {
+		var options,
+			name,
+			src,
+			copy,
+			copyIsArray,
+			clone,
+			target = arguments[0] || {},
+			i = 1,
+			length = arguments.length,
+			deep = false;
+
+		// 如果第一个参数为boolean类型,且为true,则为深拷贝
+		if (typeof target === "boolean") {
+			deep = target;
+			target = arguments[i] || {};
+			i++;
+		}
+
+		if (typeof target !== "object" && !Framework.isFunction(target)) {
+			target = {};
+		}
+
+		if (i === length) {
+			target = this;
+			i--;
+		}
+
+		for (; i < length; i++) {
+			if ((options = arguments[i]) != null) {
+				for (name in options) {
+					src = target[name];
+					copy = options[name];
+
+					if (target === copy) {
+						continue;
+					}
+
+					// 如果是深拷贝,copy必须为一个纯粹的对象或者数组
+					if (deep && copy && (Framework.isPlainObject(copy) || (copyIsArray = Framework.isArray(copy)))) {
+						// 如果是数组
+						if (copyIsArray) {
+							copyIsArray = false;
+							clone = src && Framework.isArray(src) ? src : [];
+						} else {
+							clone = src && Framework.isPlainObject(src) ? src : {};
+						}
+
+						// 递归
+						target[name] = Framework.extend(deep, clone, copy);
+					} else if (copy !== undefined) {
+						target[name] = copy;
+					}
+				}
+			}
+		}
+		return target;
 	};
 
 	/**

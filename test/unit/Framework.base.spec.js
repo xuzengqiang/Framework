@@ -15,6 +15,28 @@ describe("基础接口测试", function() {
 		expect(Framework.isInt("123")).toEqual(true);
 	});
 
+	it("Framework.isFunction", function() {
+		expect(Framework.isFunction(function() {})).toEqual(true);
+		expect(Framework.isFunction(new Function("return true;"))).toEqual(true);
+		expect(Framework.isFunction(true)).toEqual(false);
+	});
+
+	it("Framework.isArray", function() {
+		expect(Framework.isArray([10])).toEqual(true);
+		expect(Framework.isArray(new Array(10))).toEqual(true);
+
+		// 伪数组
+		expect(Framework.isArray(document.querySelectorAll("div"))).toEqual(false);
+		expect(Framework.isArray(arguments)).toEqual(false);
+
+		var mockArray = {
+			0: 1,
+			1: 2,
+			length: 2
+		};
+		expect(Framework.isArray(mockArray)).toEqual(false);
+	});
+
 	it("Framework.isPlainObject", function() {
 		expect(Framework.isPlainObject({})).toEqual(true);
 		expect(Framework.isPlainObject(new Object())).toEqual(true);
@@ -30,5 +52,73 @@ describe("基础接口测试", function() {
 		};
 
 		expect(Framework.isPlainObject(new Person("xuzengqiang", 18))).toEqual(false);
+	});
+
+	it("Framework.extend", function() {
+		Framework.extend({
+			hello: function() {
+				return "hello";
+			}
+		});
+
+		expect(Framework.hello()).toEqual("hello");
+
+		var data1 = Framework.extend(
+			{},
+			{
+				hello: function() {
+					return "hello";
+				}
+			}
+		);
+		expect(data1.hello()).toEqual("hello");
+
+		var user = {
+			info: {
+				name: "xuzengqiang"
+			}
+		};
+		var searchUser = Framework.extend(user, {
+			info: {
+				age: 18
+			}
+		});
+
+		expect(user.info.name).toEqual(void 0);
+		expect(user.info.age).toEqual(18);
+		expect(searchUser.info.name).toEqual(void 0);
+		expect(searchUser.info.age).toEqual(18);
+
+		var user2 = {
+			info: {
+				name: "xuzengqiang"
+			}
+		};
+		var searchUser2 = Framework.extend(true, user2, {
+			info: {
+				age: 18
+			}
+		});
+
+		expect(user2.info.name).toEqual("xuzengqiang");
+		expect(user2.info.age).toEqual(18);
+		expect(searchUser2.info.name).toEqual("xuzengqiang");
+		expect(searchUser2.info.age).toEqual(18);
+
+		var user3 = {
+			info: {
+				name: "xuzengqiang"
+			}
+		};
+		var searchUser3 = Framework.extend(true, {}, user3, {
+			info: {
+				age: 18
+			}
+		});
+
+		expect(user3.info.name).toEqual("xuzengqiang");
+		expect(user3.info.age).toEqual(void 0);
+		expect(searchUser3.info.name).toEqual("xuzengqiang");
+		expect(searchUser3.info.age).toEqual(18);
 	});
 });
