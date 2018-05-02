@@ -4,6 +4,7 @@
  * @author xuzengqiang <253948113@qq.com>
  * @date 2018-04-30 10:05:42
  * @version 1.0.0
+ * @description 不考虑IE9以下浏览器
  */
 (function(global, factory) {
 	factory(global);
@@ -15,6 +16,7 @@
 	var objProto = Object.prototype;
 	var arrayProto = Array.prototype;
 	var toString = objProto.toString;
+	var hasOwnProperty = objProto.hasOwnProperty;
 	var slice = arrayProto.slice;
 	var NOOP = function() {};
 	var Framework = {};
@@ -35,9 +37,7 @@
 	 */
 	Framework.isNumber = function(number) {
 		return (
-			(toString.call(number) === "[object Number]" ||
-				toString.call(number) === "[object String]") &&
-			!isNaN(number - parseFloat(number))
+			(toString.call(number) === "[object Number]" || toString.call(number) === "[object String]") && !isNaN(number - parseFloat(number))
 		);
 	};
 
@@ -54,8 +54,23 @@
 	 * 判断是否为一个纯粹的对象
 	 * @param {mixed} obj - 需要验证的对象
 	 * @since 1.0.0
+	 * @see {jQuery.isPlainObject}
 	 */
-	Framework.isPlainObject = function(obj) {};
+	Framework.isPlainObject = function(obj) {
+		var proto, Ctor;
+
+		if (!obj || toString.call(obj) !== "[object Object]") {
+			return false;
+		}
+
+		proto = Object.getPrototypeOf(obj);
+		if (!proto) {
+			return true;
+		}
+
+		Ctor = hasOwnProperty.call(proto, "constructor") && proto.constructor;
+		return typeof Ctor === "function" && hasOwnProperty.toString.call(Ctor) === hasOwnProperty.toString.call(Object);
+	};
 
 	/**
 	 * 创建一个对象
@@ -83,14 +98,8 @@
 	Framework.create = function(Super, protos, staticProtos) {
 		var Class = function FrameworkClass(args) {
 			if (this instanceof _Class) {
-				this.initialize = Framework.isFunction(this.initialize)
-					? this.initialize
-					: NOOP;
-
-				return this.initialize.apply(
-					this,
-					args && args.hasOwnProperty("callee") ? args : arguments
-				);
+				this.initialize = Framework.isFunction(this.initialize) ? this.initialize : NOOP;
+				return this.initialize.apply(this, args && args.hasOwnProperty("callee") ? args : arguments);
 			}
 			return new FrameworkClass(arguments);
 		};
