@@ -58,6 +58,20 @@
 	Framework.isPlainObject = function(obj) {};
 
 	/**
+	 * 创建一个对象
+	 * @param {Object} klass - 对象
+	 * @description 同Object.create
+	 */
+	function createObject(klass) {
+		if (Object.create) {
+			return Object.create(klass.prototype);
+		}
+		var Surrogate = function() {};
+		Surrogate.prototype = klass.prototype;
+		return new Surrogate();
+	}
+
+	/**
 	 * 类的创建,并自动执行initialize()方法
 	 * @date 2016-11-18 10:26:12
 	 * @param {Object} [Super] - 需要继承的父类
