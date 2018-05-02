@@ -232,16 +232,49 @@
 	 * @since 1.0.0
 	 */
 	Framework.create = function(Super, protos, staticProtos) {
-		var Class = function FrameworkClass(args) {
+		var Class = function BaseClass(args) {
 			if (this instanceof _Class) {
 				this.initialize = Framework.isFunction(this.initialize) ? this.initialize : NOOP;
 				return this.initialize.apply(this, args && args.hasOwnProperty("callee") ? args : arguments);
 			}
-			return new FrameworkClass(arguments);
+			return new BaseClass(arguments);
 		};
 
-		Class.extend = function() {};
-		Class.prototype.extend = function() {};
+		/**
+		 * 新增静态方法拷贝
+		 * @author xuzengqiang
+		 * @date 2017-6-29 17:40:01
+		 * @since 1.1.0
+		 */
+		Class.extend = function(staticProtos) {
+			Framework.extend(true, Class, staticProtos || {});
+		};
+
+		/**
+		 * 新增原型方法拷贝
+		 * @param {Object|String} protos - 原型方法列表或者名称
+		 * @param {Function} method - 单个方法
+		 * @author xuzengqiang
+		 * @date 2017-6-29 14:13:14
+		 * @since 1.1.0
+		 * @description
+		 * 1、往原型链上加方法,请调用该接口,切勿重写原型链,如Animate.prototype = **;
+		 * 2、如果父类上是否也存在该方法,则重写方法,提供this._super()调用父类方法.
+		 * 3、super是javascript保留的关键词,不能直接赋值.如super=**.但是可以挂在对象上.如this.super=**.但是IE8仍然不支持直接挂载,所以还是使用this._super执行父同名方法
+		 * @example
+		 * var Animal = Framework.create();
+		 * Animal.prototype.extend({
+		 *     initialize:function(){
+		 *     		// do something...
+		 *     }
+		 * });
+		 * or
+		 * Animal.prototype.extend('initialize', function(){
+		 *
+		 * });
+		 */
+		Class.prototype.extend = function(protos, method) {};
+
 		Class.prototype.constructor = Class;
 
 		return Class;
