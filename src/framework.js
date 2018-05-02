@@ -160,6 +160,7 @@
 
 	/**
 	 * 创建一个对象
+	 * @private
 	 * @param {Object} klass - 对象
 	 * @description 同Object.create
 	 */
@@ -171,6 +172,55 @@
 		Surrogate.prototype = klass.prototype;
 		return new Surrogate();
 	}
+
+	/**
+	 * 继承
+	 * @private
+	 * @author xuzengqiang
+	 * @date 2018-5-3 00:42:26
+	 * @param {Object} Super 父类
+	 * @param {Object} Child 子类
+	 * @param {Object|Function} protos - 子类或者对象。如果对象中包含constructor，子类将是用此属性值。
+	 * @param {Object} staticProtos - 静态属性或方法
+	 * @since 1.0.0
+	 */
+	function inherits(Super, Child, protos, staticProtos) {
+		// 拷贝静态方法
+		Framework.extend(true, Child, Super, staticProtos || {});
+
+		// 让子类的__super__属性指向父类
+		Child.__super__ = Super;
+		Child.prototype = createObject(Super);
+		Framework.extend(true, Child.prototype, protos || {});
+		return Child;
+	}
+
+	/**
+	 * 类的继承
+	 * @public
+	 * @author xuzengqiang
+	 * @date 2016-11-18 10:26:18
+	 * @param  {Class} super 父类
+	 * @param  {Object|Function} protos - 子类或者对象。如果对象中包含constructor，子类将是用此属性值。
+	 * @param  {Object} staticProtos - 静态属性或方法
+	 * @since 1.0.0
+	 */
+	Framework.inherits = function(Super, protos, staticProtos) {
+		var child;
+
+		if (Framework.isFunction(protos)) {
+			child = protos;
+			protos = null;
+		} else if (protos && protos.hasOwnProperty("constructor")) {
+			child = protos.constructor;
+		} else {
+			child = function() {
+				return Super.apply(this, arguments);
+			};
+		}
+
+		return inherits(Super, child, protos, staticProtos);
+	};
 
 	/**
 	 * 类的创建,并自动执行initialize()方法

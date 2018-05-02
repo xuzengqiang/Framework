@@ -121,4 +121,35 @@ describe("基础接口测试", function() {
 		expect(searchUser3.info.name).toEqual("xuzengqiang");
 		expect(searchUser3.info.age).toEqual(18);
 	});
+
+	it("Framework.inherits", function() {
+		var Person = function(name, age) {
+			this.name = name;
+			this.age = age;
+		};
+
+		Person.prototype.sayHello = function() {
+			return "hello " + this.name;
+		};
+
+		var Student = Framework.inherits(
+			Person,
+			{
+				eat: function(food) {
+					return this.name + "在吃" + food;
+				}
+			},
+			{
+				learn: function() {
+					return "learn";
+				}
+			}
+		);
+
+		var student = new Student("xuzengqiang", 18);
+		expect(student.name).toEqual("xuzengqiang");
+		expect(student.eat("苹果")).toEqual("xuzengqiang在吃苹果");
+		expect(student.sayHello()).toEqual("hello xuzengqiang");
+		expect(Student.learn()).toEqual("learn");
+	});
 });
