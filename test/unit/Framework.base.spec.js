@@ -152,4 +152,20 @@ describe("基础接口测试", function() {
 		expect(student.sayHello()).toEqual("hello xuzengqiang");
 		expect(Student.learn()).toEqual("learn");
 	});
+
+	it("Framework.create", function() {
+		var Person = Framework.create();
+		Person.prototype.extend({
+			initialize: function(name, age) {
+				this.name = name;
+				this.age = age;
+			},
+			learn() {
+				console.log("learn");
+			}
+		});
+
+		var person = new Person("xuzengqiang", 18);
+		expect(person.name).toEqual("xuzengqiang");
+	});
 });

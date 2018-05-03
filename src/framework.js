@@ -240,7 +240,7 @@
 	 */
 	Framework.create = function(Super, protos, staticProtos) {
 		var Class = function BaseClass(args) {
-				if (this instanceof _Class) {
+				if (this instanceof BaseClass) {
 					this.initialize = Framework.isFunction(this.initialize) ? this.initialize : NOOP;
 					return this.initialize.apply(this, args && args.hasOwnProperty("callee") ? args : arguments);
 				}
@@ -304,7 +304,7 @@
 			protos = protos || {};
 
 			if (Framework.isString(protos) && Framework.isFunction(method)) {
-				var property = method.trim();
+				var property = protos.trim();
 				if (!property) return;
 
 				/**
@@ -312,7 +312,7 @@
 				 * @param {String} name - 方法名称
 				 * @param {mixed} method - 方法
 				 */
-				if (Framework.isObject(superClass) && Framework.isFunction(superClass[property])) {
+				if (Framework.isFunction(superClass) && Framework.isFunction(superClass[property])) {
 					Class.prototype[property] = function() {
 						this._super = superClass[name];
 						return method.apply(this, arguments);
@@ -338,8 +338,14 @@
 		return Class;
 	};
 
-	Framework.string = (function() {
-		var LangString = Framework.inherits(String, {});
+	Framework.String = (function() {
+		var LangString = Framework.inherits(String, {
+			isBlank() {
+				if (this == null) return true;
+				var string = this.trim();
+				return string.length === 0;
+			}
+		});
 
 		return String;
 	})();
