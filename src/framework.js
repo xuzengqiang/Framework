@@ -65,10 +65,17 @@
 
 	/**
 	 * 判断是否为Array
-	 * @param {mixed} array - 判断是否为数组
+	 * @param {mixed} array - 需要验证的对象
 	 * @since 1.0.0
 	 */
 	Framework.isArray = Array.isArray || Framework.isType("Array");
+
+	/**
+	 * 判断是否为字符串
+	 * @param {mixed} string - 需要验证的对象
+	 * @since 1.0.0
+	 */
+	Framework.isString = Framework.isType("String");
 
 	/**
 	 * 判断是否为一个纯粹的对象
@@ -233,12 +240,13 @@
 	 */
 	Framework.create = function(Super, protos, staticProtos) {
 		var Class = function BaseClass(args) {
-			if (this instanceof _Class) {
-				this.initialize = Framework.isFunction(this.initialize) ? this.initialize : NOOP;
-				return this.initialize.apply(this, args && args.hasOwnProperty("callee") ? args : arguments);
-			}
-			return new BaseClass(arguments);
-		};
+				if (this instanceof _Class) {
+					this.initialize = Framework.isFunction(this.initialize) ? this.initialize : NOOP;
+					return this.initialize.apply(this, args && args.hasOwnProperty("callee") ? args : arguments);
+				}
+				return new BaseClass(arguments);
+			},
+			supportInherits = Framework.isFunction(Super);
 
 		/**
 		 * 新增静态方法拷贝
@@ -249,6 +257,22 @@
 		Class.extend = function(staticProtos) {
 			Framework.extend(true, Class, staticProtos || {});
 		};
+
+		/**
+		 * 属性拷贝
+		 * @description
+		 * 1、如果super存在,则按继承处理,否则直接拷贝静态方法和原型
+		 * 2、因为继承的时候重新了原型链,此时需要重新赋值.
+		 * 3、只有方法才允许被继承
+		 */
+		if (Framework.isFunction(Super)) {
+			Class = inherits(Super, Class, null, staticProtos || {});
+		} else {
+			staticProtos = protos;
+			protos = Super;
+			Super = null;
+			Class.extend(staticProtos);
+		}
 
 		/**
 		 * 新增原型方法拷贝
@@ -273,12 +297,52 @@
 		 *
 		 * });
 		 */
-		Class.prototype.extend = function(protos, method) {};
+		Class.prototype.extend = function(protos, method) {
+			var superClass = Class.__super__,
+				self = this;
 
+			protos = protos || {};
+
+			if (Framework.isString(protos) && Framework.isFunction(method)) {
+				var property = method.trim();
+				if (!property) return;
+
+				/**
+				 * 如果存在父类,而且父类有相应的方法,则重新原型链上的方法.提供this._super()调用父类的方法
+				 * @param {String} name - 方法名称
+				 * @param {mixed} method - 方法
+				 */
+				if (Framework.isObject(superClass) && Framework.isFunction(superClass[property])) {
+					Class.prototype[property] = function() {
+						this._super = superClass[name];
+						return method.apply(this, arguments);
+					};
+				} else {
+					Class.prototype[property] = method;
+				}
+				return;
+			}
+
+			for (var property in protos) {
+				self.extend(property, protos[property]);
+			}
+		};
+
+		/**
+		 * 拷贝原型方法
+		 * @since 1.0.0
+		 */
+		Class.prototype.extend(protos);
 		Class.prototype.constructor = Class;
 
 		return Class;
 	};
+
+	Framework.string = (function() {
+		var LangString = Framework.inherits(String, {});
+
+		return String;
+	})();
 
 	/**
 	 * 对外暴露接口
