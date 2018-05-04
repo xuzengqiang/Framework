@@ -303,23 +303,34 @@
 
 			protos = protos || {};
 
-			if (Framework.isString(protos) && Framework.isFunction(method)) {
+			if (Framework.isString(protos)) {
 				var property = protos.trim();
 				if (!property) return;
 
-				/**
-				 * 如果存在父类,而且父类有相应的方法,则重新原型链上的方法.提供this._super()调用父类的方法
-				 * @param {String} name - 方法名称
-				 * @param {mixed} method - 方法
-				 */
-				if (Framework.isFunction(superClass) && Framework.isFunction(superClass[property])) {
-					Class.prototype[property] = function() {
-						this._super = superClass[name];
-						return method.apply(this, arguments);
-					};
-				} else {
-					Class.prototype[property] = method;
+				if (Framework.isFunction(method)) {
+					/**
+					 * 如果存在父类,而且父类有相应的方法,则重写原型链上的方法.提供this._super()调用父类的方法
+					 * @param {String} name - 方法名称
+					 * @param {mixed} method - 方法
+					 */
+					if (Framework.isFunction(superClass) && Framework.isFunction(superClass.prototype[property])) {
+						Class.prototype[property] = function() {
+							this._super = superClass.prototype[name];
+							return method.apply(this, arguments);
+						};
+						return;
+					}
+
+					/**
+					 * 如果是对象或者数组,需要进行深拷贝
+					 * @since 1.0.0
+					 */
+				} else if (method && (Framework.isPlainObject(method) || Framework.isArray(method))) {
+					Class.prototype[property] = Framework.extend(true, {}, method);
+					return;
 				}
+
+				Class.prototype[property] = method;
 				return;
 			}
 

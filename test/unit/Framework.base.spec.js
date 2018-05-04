@@ -160,12 +160,59 @@ describe("基础接口测试", function() {
 				this.name = name;
 				this.age = age;
 			},
-			learn() {
-				console.log("learn");
-			}
+			sleep() {
+				return this.name + " sleeping";
+			},
+			leave: 1
 		});
 
 		var person = new Person("xuzengqiang", 18);
 		expect(person.name).toEqual("xuzengqiang");
+		expect(person.sleep()).toEqual("xuzengqiang sleeping");
+		expect(person.leave).toEqual(1);
+
+		var protos = {
+			info: {
+				name: "wuyue",
+				age: 12,
+				photo: {
+					id: 12010
+				}
+			}
+		};
+
+		var Student = Framework.create(
+			Person,
+			Framework.extend(
+				{
+					learn() {
+						return "learn:" + this.name;
+					},
+					sleep() {
+						return this._super() + "!";
+					}
+				},
+				protos
+			),
+			{
+				say: function() {
+					return "say";
+				}
+			}
+		);
+
+		var student = new Student("xuzengqiang", 18);
+		expect(student.name).toEqual("xuzengqiang");
+		expect(student.sleep()).toEqual("xuzengqiang sleeping!");
+		expect(student.learn()).toEqual("learn:xuzengqiang");
+		expect(student.info.photo.id).toEqual(12010);
+
+		/**
+		 * 深拷贝校验
+		 */
+		student.info.photo.id = 10000;
+		expect(protos.info.photo.id).toEqual(12010);
+		expect(student.info.photo.id).toEqual(10000);
+		expect(Student.say()).toEqual("say");
 	});
 });
