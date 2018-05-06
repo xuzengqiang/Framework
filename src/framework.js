@@ -331,18 +331,6 @@
 		return Class;
 	};
 
-	Framework.String = (function() {
-		var LangString = Framework.inherits(String, {
-			isBlank() {
-				if (this == null) return true;
-				var string = this.trim();
-				return string.length === 0;
-			}
-		});
-
-		return String;
-	})();
-
 	/**
 	 * 对外暴露接口
 	 * @since 1.0.0
