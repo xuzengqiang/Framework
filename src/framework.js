@@ -165,6 +165,30 @@
 		return target;
 	};
 
+	Framework.extend({
+		/**
+		 * 判断是否为一个空的obj
+		 * @param {mixed} obj - 需要验证的对象
+		 * @since 1.0.0
+		 */
+		isEmptyObject: function(obj) {
+			var property;
+			for (property in obj) {
+				return false;
+			}
+			return true;
+		},
+
+		/**
+		 * 判断是否为未定义
+		 * @param {mixed} obj - 需要验证的对象
+		 * @since 1.0.0
+		 */
+		isUndefined(obj) {
+			return obj === void 0;
+		}
+	});
+
 	/**
 	 * 创建一个对象
 	 * @private
