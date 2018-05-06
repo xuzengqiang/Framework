@@ -189,7 +189,7 @@ describe("基础接口测试", function() {
 						return "learn:" + this.name;
 					},
 					sleep() {
-						return this._super() + "!";
+						console.error(this._super());
 					}
 				},
 				protos

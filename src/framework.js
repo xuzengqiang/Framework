@@ -192,12 +192,15 @@
 	 * @since 1.0.0
 	 */
 	function inherits(Super, Child, protos, staticProtos) {
+		var childPrototype = createObject(Super);
+
 		// 拷贝静态方法
 		Framework.extend(true, Child, Super, staticProtos || {});
 
 		// 让子类的__super__属性指向父类
 		Child.__super__ = Super;
-		Child.prototype = createObject(Super);
+		Child.__owner__ = childPrototype;
+		Child.prototype = childPrototype;
 		Framework.extend(true, Child.prototype, protos || {});
 		return Child;
 	}
@@ -298,7 +301,7 @@
 		 * });
 		 */
 		Class.prototype.extend = function(protos, method) {
-			var superClass = Class.__super__,
+			var superProto = Class.__owner__,
 				self = this;
 
 			protos = protos || {};
@@ -307,25 +310,11 @@
 				var property = protos.trim();
 				if (!property) return;
 
-				if (Framework.isFunction(method)) {
-					/**
-					 * 如果存在父类,而且父类有相应的方法,则重写原型链上的方法.提供this._super()调用父类的方法
-					 * @param {String} name - 方法名称
-					 * @param {mixed} method - 方法
-					 */
-					if (Framework.isFunction(superClass) && Framework.isFunction(superClass.prototype[property])) {
-						Class.prototype[property] = function() {
-							this._super = superClass.prototype[name];
-							return method.apply(this, arguments);
-						};
-						return;
-					}
-
-					/**
-					 * 如果是对象或者数组,需要进行深拷贝
-					 * @since 1.0.0
-					 */
-				} else if (method && (Framework.isPlainObject(method) || Framework.isArray(method))) {
+				/**
+				 * 如果是对象或者数组,需要进行深拷贝
+				 * @since 1.0.0
+				 */
+				if (method && (Framework.isPlainObject(method) || Framework.isArray(method))) {
 					Class.prototype[property] = Framework.extend(true, {}, method);
 					return;
 				}
