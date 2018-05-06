@@ -192,15 +192,15 @@
 	 * @since 1.0.0
 	 */
 	function inherits(Super, Child, protos, staticProtos) {
-		var childPrototype = createObject(Super);
+		var copyPrototype = createObject(Super);
 
 		// 拷贝静态方法
 		Framework.extend(true, Child, Super, staticProtos || {});
 
 		// 让子类的__super__属性指向父类
 		Child.__super__ = Super;
-		Child.__owner__ = childPrototype;
-		Child.prototype = childPrototype;
+		Child.__owner__ = copyPrototype;
+		Child.prototype = copyPrototype;
 		Framework.extend(true, Child.prototype, protos || {});
 		return Child;
 	}
@@ -243,13 +243,12 @@
 	 */
 	Framework.create = function(Super, protos, staticProtos) {
 		var Class = function BaseClass(args) {
-				if (this instanceof BaseClass) {
-					this.initialize = Framework.isFunction(this.initialize) ? this.initialize : NOOP;
-					return this.initialize.apply(this, args && args.hasOwnProperty("callee") ? args : arguments);
-				}
-				return new BaseClass(arguments);
-			},
-			supportInherits = Framework.isFunction(Super);
+			if (this instanceof BaseClass) {
+				this.initialize = Framework.isFunction(this.initialize) ? this.initialize : NOOP;
+				return this.initialize.apply(this, args && args.hasOwnProperty("callee") ? args : arguments);
+			}
+			return new BaseClass(arguments);
+		};
 
 		/**
 		 * 新增静态方法拷贝
@@ -284,26 +283,14 @@
 		 * @author xuzengqiang
 		 * @date 2017-6-29 14:13:14
 		 * @since 1.1.0
-		 * @description
-		 * 1、往原型链上加方法,请调用该接口,切勿重写原型链,如Animate.prototype = **;
-		 * 2、如果父类上是否也存在该方法,则重写方法,提供this._super()调用父类方法.
-		 * 3、super是javascript保留的关键词,不能直接赋值.如super=**.但是可以挂在对象上.如this.super=**.但是IE8仍然不支持直接挂载,所以还是使用this._super执行父同名方法
-		 * @example
 		 * var Animal = Framework.create();
 		 * Animal.prototype.extend({
-		 *     initialize:function(){
-		 *     		// do something...
-		 *     }
+		 *     initialize:function(){}
 		 * });
 		 * or
-		 * Animal.prototype.extend('initialize', function(){
-		 *
-		 * });
+		 * Animal.prototype.extend('initialize', function(){});
 		 */
 		Class.prototype.extend = function(protos, method) {
-			var superProto = Class.__owner__,
-				self = this;
-
 			protos = protos || {};
 
 			if (Framework.isString(protos)) {
@@ -324,9 +311,15 @@
 			}
 
 			for (var property in protos) {
-				self.extend(property, protos[property]);
+				this.extend(property, protos[property]);
 			}
 		};
+
+		/**
+		 * 拓展super方法
+		 * @todo 后续完成
+		 */
+		Class.prototype.extend("_super", function() {});
 
 		/**
 		 * 拷贝原型方法

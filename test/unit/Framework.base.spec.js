@@ -161,14 +161,14 @@ describe("基础接口测试", function() {
 				this.age = age;
 			},
 			sleep() {
-				return this.name + " sleeping";
+				return "sleep:" + this.name;
 			},
 			leave: 1
 		});
 
 		var person = new Person("xuzengqiang", 18);
 		expect(person.name).toEqual("xuzengqiang");
-		expect(person.sleep()).toEqual("xuzengqiang sleeping");
+		expect(person.sleep()).toEqual("sleep:xuzengqiang");
 		expect(person.leave).toEqual(1);
 
 		var protos = {
@@ -187,9 +187,6 @@ describe("基础接口测试", function() {
 				{
 					learn() {
 						return "learn:" + this.name;
-					},
-					sleep() {
-						console.error(this._super());
 					}
 				},
 				protos
@@ -203,7 +200,7 @@ describe("基础接口测试", function() {
 
 		var student = new Student("xuzengqiang", 18);
 		expect(student.name).toEqual("xuzengqiang");
-		expect(student.sleep()).toEqual("xuzengqiang sleeping!");
+		expect(student.sleep()).toEqual("sleep:xuzengqiang");
 		expect(student.learn()).toEqual("learn:xuzengqiang");
 		expect(student.info.photo.id).toEqual(12010);
 
@@ -214,5 +211,34 @@ describe("基础接口测试", function() {
 		expect(protos.info.photo.id).toEqual(12010);
 		expect(student.info.photo.id).toEqual(10000);
 		expect(Student.say()).toEqual("say");
+
+		// 无new校验
+		var student2 = Student("wuyue", 18);
+		expect(student2.name).toEqual("wuyue");
+
+		var Oarray = Framework.create(Array, {
+			contains: function(value) {
+				var length = this.length;
+				for (var i = 0; i < length; i++) {
+					if (this[i] === value) {
+						return true;
+					}
+				}
+				return false;
+			}
+		});
+		var array = new Oarray();
+		array.push(1);
+		array.push(2);
+		array.push(3);
+		array.push(4);
+		expect(array.contains(3)).toEqual(true);
+		expect(array.contains(100)).toEqual(false);
+
+		var array2 = Oarray();
+		array2.push(1);
+		array2.push(2);
+		expect(array2.contains(2)).toEqual(true);
+		expect(array2.contains(3)).toEqual(false);
 	});
 });
