@@ -67,6 +67,17 @@ module.exports = function(grunt) {
 	})
 
 	/**
+	 *
+	 */
+	require('load-grunt-tasks')(grunt)
+
+	/**
+	 * 加载build/tasks下的所有任务
+	 * @since 1.0.0
+	 */
+	grunt.loadTasks('build/tasks')
+
+	/**
 	 * 使用Uglify插件
 	 * @since 1.0.0
 	 */
