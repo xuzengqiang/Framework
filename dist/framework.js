@@ -1,3 +1,4 @@
+(function(){
 
 
 	/**
@@ -19,7 +20,16 @@
 
 
 
+	Framework.isString = function(string) {
+		return isType('String')(string)
+	}
+
+
+
 	var Framework = {}
 
-return Framework
 
+
+	return Framework
+
+})()

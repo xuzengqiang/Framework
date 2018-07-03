@@ -4,12 +4,12 @@
  * @date: 2018-07-03 11:19:53
  */
 
-module.exports = function (grunt) {
+module.exports = function(grunt) {
 	var requirejs = require('requirejs'),
 		rdefineEnd = /\}\s*?\)[^}\w]*$/,
 		config = {
 			baseUrl: 'src',
-			name: "framework",
+			name: 'framework',
 			out: 'dist/framework.js',
 			/**
 			 * 不进行代码的压缩
@@ -30,23 +30,31 @@ module.exports = function (grunt) {
 			 * @param {String} path - 路径
 			 * @param {String} contents - 文本内容
 			 */
-			onBuildWrite: function (moduleName, path, contents) {
-				contents = contents
-					.replace(/define\([^{]*?{\s*(?:("|')use strict\1(?:;|))?/, '')
-					.replace(rdefineEnd, '')
+			onBuildWrite: function(moduleName, path, contents) {
+				contents = contents.replace(/define\([^{]*?{\s*(?:("|')use strict\1(?:;|))?/, '').replace(rdefineEnd, '')
 
 				return contents
+			},
+			/**
+			 * 包装
+			 */
+			wrap: {
+				start: '(function(){',
+				end: '})()'
 			}
 		}
 
-	grunt.task.registerTask('builder', function () {
+	grunt.task.registerTask('builder', function() {
 		var done = this.async()
 
-		requirejs.optimize(config, function (buildResponse) {
-			done()
-		}, function (error) {
-			done(error)
-		})
+		requirejs.optimize(
+			config,
+			function(buildResponse) {
+				done()
+			},
+			function(error) {
+				done(error)
+			}
+		)
 	})
-
 }
