@@ -23,6 +23,15 @@ module.exports = function (grunt) {
 			 */
 			onBuildWrite: function (moduleName, path, contents) {
 				console.error('write')
+			},
+			/**
+			 * 当每个文件读取的时候回调用这个方法
+			 * @param {String} moduleName - 模块名称
+			 * @param {String} path - 路径
+			 * @param {String} contents - 文本内容
+			 */
+			onBuildWrite: function (moduleName, path, contents) {
+
 			}
 		}
 

@@ -6,10 +6,11 @@
 
 module.exports = function (grunt) {
 	var requirejs = require('requirejs'),
+		rdefineEnd = /\}\s*?\)[^}\w]*$/,
 		config = {
-			baseUrl: 'source',
-			name: "core",
-			out: 'dist/core.js',
+			baseUrl: 'src',
+			name: "framework",
+			out: 'dist/framework.js',
 			/**
 			 * 不进行代码的压缩
 			 */
@@ -18,7 +19,24 @@ module.exports = function (grunt) {
 			 * r.js会在每一个文件末尾插入一个;
 			 * @description 去掉文件末尾的;
 			 */
-			skipSemiColonInsertion: true
+			skipSemiColonInsertion: true,
+			/**
+			 * 不自动加上define占位符
+			 */
+			skipModuleInsertion: true,
+			/**
+			 * 当每个文件读取的时候回调用这个方法
+			 * @param {String} moduleName - 模块名称
+			 * @param {String} path - 路径
+			 * @param {String} contents - 文本内容
+			 */
+			onBuildWrite: function (moduleName, path, contents) {
+				contents = contents
+					.replace(/define\([^{]*?{\s*(?:("|')use strict\1(?:;|))?/, '')
+					.replace(rdefineEnd, '')
+
+				return contents
+			}
 		}
 
 	grunt.task.registerTask('builder', function () {
