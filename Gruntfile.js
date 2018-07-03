@@ -5,7 +5,7 @@
  * @date 2018-04-30 07:14:22
  * @version 1.0.0
  */
-module.exports = function(grunt) {
+module.exports = function (grunt) {
 	'use strict'
 
 	grunt.initConfig({
@@ -20,6 +20,12 @@ module.exports = function(grunt) {
 			dist: {
 				src: ['src/string.js', 'src/array.js', 'src/inherits.js'],
 				dest: 'dist/<%=pkg.name%>-<%=pkg.version%>.js'
+			}
+		},
+
+		builder: {
+			all: {
+				dist: 'build/framework.js'
 			}
 		},
 
@@ -63,6 +69,13 @@ module.exports = function(grunt) {
 				configFile: 'test/karma.config.js'
 				// singleRun: true
 			}
+		},
+
+		/**
+		 * requirejs配置
+		 */
+		requirejs: {
+
 		}
 	})
 
@@ -107,7 +120,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('default', ['uglify', 'watch', 'concat'])
 
 	/**
-	 * 执行grunt karma命令时自动执行karma插件
+	 * 执行grunt unit命令时自动执行karma插件
 	 * @since 1.0.0
 	 */
 	grunt.registerTask('unit', ['karma'])
