@@ -12,4 +12,5 @@ define([
 	var VERSION = '@VERSION@'
 
 	Framework.VERSION = VERSION
+
 })

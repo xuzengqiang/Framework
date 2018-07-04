@@ -41,8 +41,8 @@ module.exports = function (grunt) {
 					' */\n'
 			},
 			build: {
-				src: 'src/framework.js',
-				dest: 'dist/<%=pkg.name%>-<%=pkg.version%>.min.js'
+				src: 'dist/framework.js',
+				dest: 'dist/framework.min.js'
 			}
 		},
 
