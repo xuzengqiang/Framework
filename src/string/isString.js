@@ -1,7 +1,10 @@
-define(['../core', '../utils/isType'], function(Framework, isType) {
+define([
+	'../core',
+	'../utils/isType'
+], function (Framework, isType) {
 	'use strict'
 
-	Framework.isString = function(string) {
+	Framework.isString = function (string) {
 		return isType('String')(string)
 	}
 })

@@ -1,5 +1,5 @@
-;(function(global, factory) {
+; (function (global, factory) {
 	factory(global)
-})(window, function(window) {
+})(window, function (window) {
 	// build
 })

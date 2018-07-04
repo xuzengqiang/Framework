@@ -20,13 +20,13 @@
 
 
 
-	Framework.isString = function(string) {
+	var Framework = {}
+
+
+
+	Framework.isString = function (string) {
 		return isType('String')(string)
 	}
-
-
-
-	var Framework = {}
 
 
 
