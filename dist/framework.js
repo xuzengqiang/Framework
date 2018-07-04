@@ -1,4 +1,13 @@
-(function(){
+/**
+ * @copyright www.wicoder.net
+ * @fileOverview: wrapper.js
+ * @author: xuzengqiang
+ * @date: 2018-07-04 16:25:42
+ */
+
+; (function (global, factory) {
+	factory(global)
+})(window, function (window) {
 
 
 	/**
@@ -22,6 +31,12 @@
 
 	var Framework = {}
 
+	/**
+	 * 版本号
+	 */
+	var VERSION = '1.0.0'
+
+
 
 
 	Framework.isString = function (string) {
@@ -32,4 +47,4 @@
 
 	return Framework
 
-})()
+})

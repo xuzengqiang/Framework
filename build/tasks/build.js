@@ -7,10 +7,22 @@
 module.exports = function (grunt) {
 	var requirejs = require('requirejs'),
 		rdefineEnd = /\}\s*?\)[^}\w]*$/,
+		moment = require('moment'),
+		srcFloder = __dirname + '/../../src/',
+
+		/**
+		 * 读取src目录下的指定文件
+		 * @param {String} fileName - 文件名称
+		 */
+		read = function (fileName) {
+			return grunt.file.read(srcFloder + fileName)
+		},
+
+		wrapper = read('wrapper.js').split(/[\x20\t]*\/\/ @CODE\n(?:[\x20\t]*\/\/[^\n]+\n)*/),
 		config = {
 			baseUrl: 'src',
 			name: 'framework',
-			out: 'dist/framework.js',
+			// out: 'dist/framework.js',
 			/**
 			 * 不进行代码的压缩
 			 */
@@ -41,22 +53,33 @@ module.exports = function (grunt) {
 			 * 包装
 			 */
 			wrap: {
-				start: '(function(){',
-				end: '})()'
+				start: wrapper[0].replace(/\/\*\s*eslint(?: |-).*\s*\*\/\n/, ""),
+				end: wrapper[1]
 			}
 		}
 
 	grunt.task.registerTask('builder', function () {
 		var done = this.async()
+		var version = grunt.config('pkg.version')
 
-		requirejs.optimize(
-			config,
-			function (buildResponse) {
-				done()
-			},
-			function (error) {
-				done(error)
-			}
-		)
+		/**
+		 * 最终输出的时候会执行
+		 * @param {String} compiled - 最终编译后的代码
+		 * @description
+		 * 1、替换版本号
+		 */
+		config.out = function (compiled) {
+			compiled = compiled
+				.replace(/(@VERSION@)/g, version)
+				.replace(/(@DATE@)/g, moment(new Date()).format('YYYY-MM-DD HH:mm:ss'))
+
+			grunt.file.write('dist/framework.js', compiled)
+		}
+
+		requirejs.optimize(config, function (buildResponse) {
+			done()
+		}, function (error) {
+			done(error)
+		})
 	})
 }

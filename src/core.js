@@ -5,4 +5,10 @@ define([
 	'use strict'
 
 	var Framework = {}
+
+	/**
+	 * 版本号
+	 */
+	var VERSION = '@VERSION@'
+
 })
