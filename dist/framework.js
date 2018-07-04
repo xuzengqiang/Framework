@@ -2,7 +2,7 @@
  * @copyright www.wicoder.net
  * @fileOverview: wrapper.js
  * @author: xuzengqiang
- * @date: 2018-07-04 16:25:42
+ * @date: 2018-07-04 17:12:46
  */
 
 ; (function (global, factory) {
@@ -36,6 +36,7 @@
 	 */
 	var VERSION = '1.0.0'
 
+	Framework.VERSION = VERSION
 
 
 

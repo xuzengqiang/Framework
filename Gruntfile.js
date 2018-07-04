@@ -34,9 +34,9 @@ module.exports = function (grunt) {
 				stripBanners: true,
 				banner:
 					'/**\n' +
-					' * <%= pkg.name %> v<%= pkg.version %> \n' +
 					' * @copyright www.wicoder.net \n' +
-					" * @date <%= grunt.template.today('yyyy-mm-dd HH:mm:ss') %> \n" +
+					' * @fileOverview <%= pkg.name %> v<%= pkg.version %> \n' +
+					' * @date <%= grunt.template.today(\'yyyy-mm-dd HH:mm:ss\') %> \n' +
 					' * @author xuzengqiang <25394113@qq.com>\n' +
 					' */\n'
 			},
@@ -53,7 +53,14 @@ module.exports = function (grunt) {
 		watch: {
 			build: {
 				files: ['src/*.js'],
-				tasks: ['uglify', 'concat'],
+				/**
+				 * 代码更新时执行的任务
+				 * @date 2018-07-04 17:03:40
+				 * @description
+				 * 1、新增代码自动构建
+				 * 2、自动生成压缩代码
+				 */
+				tasks: ['uglify', 'concat', 'build'],
 				options: {
 					spawn: false
 				}
@@ -113,10 +120,6 @@ module.exports = function (grunt) {
 	 */
 	grunt.loadNpmTasks('grunt-contrib-concat')
 
-	/**
-	 * 在执行grunt命令的时候自动执行uglify插件
-	 * @since 1.0.0
-	 */
 	grunt.registerTask('default', ['uglify', 'watch', 'concat'])
 
 	/**
