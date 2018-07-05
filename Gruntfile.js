@@ -4,6 +4,12 @@
  * @author xuzengqiang <253948113@qq.com>
  * @date 2018-04-30 07:14:22
  * @version 1.0.0
+ *
+ * @update xuzengqiang
+ * @date 2018-07-05 12:11:11
+ * @since 1.0.1
+ * @description
+ * 1、删除concat任务,通过r.js合并文件
  */
 module.exports = function (grunt) {
 	'use strict'
@@ -11,19 +17,14 @@ module.exports = function (grunt) {
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 
-		concat: {
-			options: {
-				separator: ';',
-				stripBanners: true,
-				banner: '/*! hello - v1.2.3 - 2014-2-4 */'
-			},
-			dist: {
-				src: ['src/string.js', 'src/array.js', 'src/inherits.js'],
-				dest: 'dist/<%=pkg.name%>-<%=pkg.version%>.js'
-			}
+		debug: {
+			name: 'xuzengqiang'
 		},
 
-		builder: {
+		build: {
+			options: {
+				name: 'framework'
+			},
 			all: {
 				dist: 'build/framework.js'
 			}
@@ -32,19 +33,43 @@ module.exports = function (grunt) {
 		uglify: {
 			options: {
 				stripBanners: true,
-				banner:
-					'/**\n' +
-					' * @copyright www.wicoder.net \n' +
-					' * @fileOverview <%= pkg.name %> v<%= pkg.version %> \n' +
-					' * @date <%= grunt.template.today(\'yyyy-mm-dd HH:mm:ss\') %> \n' +
-					' * @author xuzengqiang <25394113@qq.com>\n' +
-					' */\n'
+				banner: '/** framework.js */'
 			},
-			build: {
-				src: 'dist/framework.js',
-				dest: 'dist/framework.min.js'
+			bar: {
+				files: {
+					'dist/core.js':
+						'src/core.js'
+				}
+			},
+			foo: {
+				files: {
+					'dist/wrapper.js':
+						'src/wrapper.js'
+				},
+				options: {
+					banner: '/** framework-wrapper.js */'
+				}
 			}
 		},
+
+		// uglify: {
+		// 	all: {
+		// 		files: {
+		// 			'dist/framework.min.js':
+		// 				'dist/framework.js'
+		// 		}
+		// 	},
+		// 	options: {
+		// 		stripBanners: true,
+		// 		banner:
+		// 			'/**\n' +
+		// 			' * @copyright www.wicoder.net \n' +
+		// 			' * @fileOverview <%= pkg.name %> v<%= pkg.version %> \n' +
+		// 			' * @date <%= grunt.template.today(\'yyyy-mm-dd HH:mm:ss\') %> \n' +
+		// 			' * @author xuzengqiang <25394113@qq.com>\n' +
+		// 			' */\n'
+		// 	}
+		// },
 
 		/**
 		 * 新增自动化插件
@@ -59,8 +84,9 @@ module.exports = function (grunt) {
 				 * @description
 				 * 1、新增代码自动构建
 				 * 2、自动生成压缩代码
+				 * 3、删除concat任务
 				 */
-				tasks: ['uglify', 'concat', 'build'],
+				tasks: ['build', 'uglify'],
 				options: {
 					spawn: false
 				}
@@ -76,13 +102,6 @@ module.exports = function (grunt) {
 				configFile: 'test/karma.config.js'
 				// singleRun: true
 			}
-		},
-
-		/**
-		 * requirejs配置
-		 */
-		requirejs: {
-
 		}
 	})
 
@@ -117,10 +136,12 @@ module.exports = function (grunt) {
 
 	/**
 	 * 加载文件合并插件
+	 * grunt.loadNpmTasks('grunt-contrib-concat')
+	 * @deprecated
+	 * @description 采用r.js合并文件
 	 */
-	grunt.loadNpmTasks('grunt-contrib-concat')
 
-	grunt.registerTask('default', ['uglify', 'watch', 'concat'])
+	// grunt.registerTask('default', ['watch'])
 
 	/**
 	 * 执行grunt unit命令时自动执行karma插件
@@ -132,5 +153,12 @@ module.exports = function (grunt) {
 	 * 项目启动命令
 	 * @since 1.0.0
 	 */
-	grunt.registerTask('start', ['uglify', 'watch', 'concat'])
+	grunt.registerTask('start', ['watch'])
+
+	/**
+	 * 新增代码打包命令
+	 * @date 2018-07-05 12:30:35
+	 * @since 1.0.1
+	 */
+	grunt.registerTask('build', ['build'])
 }

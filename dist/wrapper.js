@@ -1,0 +1,2 @@
+/** framework-wrapper.js */
+window;
