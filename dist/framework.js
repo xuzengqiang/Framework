@@ -2,7 +2,7 @@
  * @copyright www.wicoder.net
  * @fileOverview: wrapper.js
  * @author: xuzengqiang
- * @date: 2018-07-07 18:57:13
+ * @date: 2018-07-07 19:04:15
  */
 
 ; (function (global, factory) {
@@ -64,7 +64,7 @@
    * @since 1.0.0
    * @see jQuery.isPlainObject
    */
-	Framework.isPlainObject = function (obj) {
+	Framework.isPlainObject = function isPlainObject (obj) {
 		var proto, Ctor
 
 		if (!obj || toString.call(obj) !== '[object Object]') {
@@ -82,8 +82,27 @@
 
 
 
+	/**
+	 * 判断是否属于字符串
+	 * @date 2018-07-07 19:01:59
+	 * @since 1.0.0
+	 */
+	var isString = Framework.isType('String')
+
 	Framework.isString = function (string) {
-		return Framework.isType('String')(string)
+		return isString(string)
+	}
+
+
+
+	/**
+	 * 判断对象是否为undefined
+	 * @param {mixed} obj - 需要验证的对象
+	 * @date 2018-07-07 19:03:41
+	 * @since 1.0.0
+	 */
+	Framework.isUndefined = function isUndefined (obj) {
+		return obj === void 0
 	}
 
 

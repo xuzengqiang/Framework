@@ -11,7 +11,7 @@ define([
    * @since 1.0.0
    * @see jQuery.isPlainObject
    */
-	Framework.isPlainObject = function (obj) {
+	Framework.isPlainObject = function isPlainObject (obj) {
 		var proto, Ctor
 
 		if (!obj || toString.call(obj) !== '[object Object]') {
