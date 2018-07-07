@@ -1,6 +1,6 @@
 define([
-	'./core',
-	'./string/isString'
+	'./define',
+	'./utils'
 ], function (Framework) {
 	'use strict'
 

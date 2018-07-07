@@ -58,7 +58,7 @@ module.exports = function (grunt) {
 			}
 		}
 
-	grunt.task.registerTask('build', function () {
+	grunt.task.registerTask('builder', function () {
 		var done = this.async()
 		var version = grunt.config('pkg.version')
 

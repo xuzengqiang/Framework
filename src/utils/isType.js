@@ -1,7 +1,9 @@
-define(function () {
+define([
+	'../define'
+], function (Framework) {
 	'use strict'
 
-	var isType = function isType (type) {
+	Framework.isType = function isType (type) {
 		return function (obj) {
 			return toString.call(obj) === '[object ' + type + ']'
 		}

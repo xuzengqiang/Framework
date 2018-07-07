@@ -1,4 +1,6 @@
-define(function () {
+define([
+	'../core'
+], function (Framework) {
 	'use strict'
 
 	/**
@@ -6,7 +8,7 @@ define(function () {
 	 * @author: xuzengqiang
 	 * @date: 2018-07-03 14:48:44
 	 */
-	var isFunction = function isFunction (obj) {
+	Framework.isFunction = function isFunction (obj) {
 		return typeof obj === 'function' && typeof obj.nodeType !== 'number'
 	}
 })

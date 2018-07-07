@@ -1,6 +1,4 @@
-define([
-	'./define'
-], function (Framework) {
+define([], function () {
 	'use strict'
 
 	var Framework = {}

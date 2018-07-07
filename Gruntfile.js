@@ -17,59 +17,33 @@ module.exports = function (grunt) {
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 
-		debug: {
-			name: 'xuzengqiang'
-		},
-
-		build: {
-			options: {
-				name: 'framework'
-			},
-			all: {
-				dist: 'build/framework.js'
-			}
-		},
-
-		uglify: {
-			options: {
-				stripBanners: true,
-				banner: '/** framework.js */'
-			},
-			bar: {
-				files: {
-					'dist/core.js':
-						'src/core.js'
-				}
-			},
-			foo: {
-				files: {
-					'dist/wrapper.js':
-						'src/wrapper.js'
-				},
-				options: {
-					banner: '/** framework-wrapper.js */'
-				}
-			}
-		},
-
-		// uglify: {
-		// 	all: {
-		// 		files: {
-		// 			'dist/framework.min.js':
-		// 				'dist/framework.js'
-		// 		}
-		// 	},
+		// build: {
 		// 	options: {
-		// 		stripBanners: true,
-		// 		banner:
-		// 			'/**\n' +
-		// 			' * @copyright www.wicoder.net \n' +
-		// 			' * @fileOverview <%= pkg.name %> v<%= pkg.version %> \n' +
-		// 			' * @date <%= grunt.template.today(\'yyyy-mm-dd HH:mm:ss\') %> \n' +
-		// 			' * @author xuzengqiang <25394113@qq.com>\n' +
-		// 			' */\n'
+		// 		name: 'framework'
+		// 	},
+		// 	all: {
+		// 		dist: 'build/framework.js'
 		// 	}
 		// },
+
+		uglify: {
+			all: {
+				files: {
+					'dist/framework.min.js':
+						'dist/framework.js'
+				}
+			},
+			options: {
+				stripBanners: true,
+				banner:
+					'/**\n' +
+					' * @copyright www.wicoder.net \n' +
+					' * @fileOverview <%= pkg.name %> v<%= pkg.version %> \n' +
+					' * @date <%= grunt.template.today(\'yyyy-mm-dd HH:mm:ss\') %> \n' +
+					' * @author xuzengqiang <25394113@qq.com>\n' +
+					' */\n'
+			}
+		},
 
 		/**
 		 * 新增自动化插件
