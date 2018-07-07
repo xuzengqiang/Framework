@@ -43,10 +43,21 @@ module.exports = function (grunt) {
 			 * @param {String} contents - 文本内容
 			 */
 			onBuildWrite: function (moduleName, path, contents) {
-				contents = contents
-					.replace(/define\([^{]*?{\s*(?:("|')use strict\1(?:;|))?/, '')
-					.replace(rdefineEnd, '')
-
+				// 如果是变量
+				if (/.\/var\//.test(path.replace(process.cwd(), ''))) {
+					contents = contents
+						.replace(
+							/define\([\w\W]*?return/,
+							"  var " +
+							(/var\/([\w-]+)/.exec(moduleName)[1]) +
+							" ="
+						)
+						.replace(rdefineEnd, '')
+				} else {
+					contents = contents
+						.replace(/define\([^{]*?{\s*(?:("|')use strict\1(?:;|))?/, '')
+						.replace(rdefineEnd, '')
+				}
 				return contents
 			},
 			/**
@@ -69,6 +80,7 @@ module.exports = function (grunt) {
 		 * 1、替换版本号
 		 */
 		config.out = function (compiled) {
+
 			compiled = compiled
 				.replace(/(@VERSION@)/g, version)
 				.replace(/(@DATE@)/g, moment(new Date()).format('YYYY-MM-DD HH:mm:ss'))

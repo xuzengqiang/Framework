@@ -1,5 +1,5 @@
 define([
-	'../core'
+	'../define'
 ], function (Framework) {
 	'use strict'
 

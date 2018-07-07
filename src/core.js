@@ -1,14 +1,11 @@
 define([
-	'./define'
+	'./define',
+	'./utils/isFunction',
+	'./utils/isPlainObject'
 ], function (Framework) {
 	'use strict'
 
-	var Framework = {}
+	Framework.extend = function () {
 
-	/**
-	 * 版本号
-	 */
-	var VERSION = '@VERSION@'
-
-	Framework.VERSION = VERSION
+	}
 })

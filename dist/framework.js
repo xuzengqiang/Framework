@@ -2,22 +2,29 @@
  * @copyright www.wicoder.net
  * @fileOverview: wrapper.js
  * @author: xuzengqiang
- * @date: 2018-07-07 17:47:51
+ * @date: 2018-07-07 18:57:13
  */
 
 ; (function (global, factory) {
 	factory(global)
 })(window, function (window) {
+  var document = window.document
 
+  var location = window.location
 
-	var Framework = {}
+  var objProto = Object.prototype
 
-	/**
-	 * 版本号
-	 */
-	var VERSION = '1.0.0'
+  var arrayProto = Array.prototype
 
-	Framework.VERSION = VERSION
+  var toString = objProto.toString
+
+  var hasOwnProperty = objProto.hasOwnProperty
+
+  var slice = arrayProto.slice
+
+  var rint = /^[1-9]\d*$/
+
+  var noop = function () { }
 
 
 
@@ -52,11 +59,31 @@
 
 
 	/**
-	 * 判断是否为一个纯粹的对象
-	 * @param {mixed} obj - 需要验证的对象
-	 */
-	Framework.isPlainObject = function () {
-		console.error('debuggerr')
+   * 判断是否为一个纯粹的对象
+   * @param {mixed} obj - 需要验证的对象
+   * @since 1.0.0
+   * @see jQuery.isPlainObject
+   */
+	Framework.isPlainObject = function (obj) {
+		var proto, Ctor
+
+		if (!obj || toString.call(obj) !== '[object Object]') {
+			return false
+		}
+
+		proto = Object.getPrototypeOf(obj)
+		if (!proto) {
+			return true
+		}
+
+		Ctor = hasOwnProperty.call(proto, 'constructor') && proto.constructor
+		return typeof Ctor === 'function' && hasOwnProperty.toString.call(Ctor) === hasOwnProperty.toString.call(Object)
+	}
+
+
+
+	Framework.isString = function (string) {
+		return Framework.isType('String')(string)
 	}
 
 
