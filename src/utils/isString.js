@@ -9,9 +9,8 @@ define([
 	 * @date 2018-07-07 19:01:59
 	 * @since 1.0.0
 	 */
-	var isString = Framework.isType('String')
-
-	Framework.isString = function (string) {
-		return isString(string)
+	var __isString = Framework.isType('String')
+	Framework.isString = function isString (string) {
+		return __isString(string)
 	}
 })

@@ -5,8 +5,8 @@
  * @date 2018-05-02 11:34:50
  * @version 1.0.0
  */
-describe("基础接口测试", function() {
-	it("Framework.isInt", function() {
+describe("基础接口测试", function () {
+	it("Framework.isInt", function () {
 		expect(Framework.isInt(123)).toEqual(true);
 		expect(Framework.isInt(123.0)).toEqual(true);
 		expect(Framework.isInt(123.0001)).toEqual(false);
@@ -15,13 +15,13 @@ describe("基础接口测试", function() {
 		expect(Framework.isInt("123")).toEqual(true);
 	});
 
-	it("Framework.isFunction", function() {
-		expect(Framework.isFunction(function() {})).toEqual(true);
+	it("Framework.isFunction", function () {
+		expect(Framework.isFunction(function () { })).toEqual(true);
 		expect(Framework.isFunction(new Function("return true;"))).toEqual(true);
 		expect(Framework.isFunction(true)).toEqual(false);
 	});
 
-	it("Framework.isArray", function() {
+	it("Framework.isArray", function () {
 		expect(Framework.isArray([10])).toEqual(true);
 		expect(Framework.isArray(new Array(10))).toEqual(true);
 
@@ -37,16 +37,16 @@ describe("基础接口测试", function() {
 		expect(Framework.isArray(mockArray)).toEqual(false);
 	});
 
-	it("Framework.isPlainObject", function() {
+	it("Framework.isPlainObject", function () {
 		expect(Framework.isPlainObject({})).toEqual(true);
 		expect(Framework.isPlainObject(new Object())).toEqual(true);
 		expect(Framework.isPlainObject({ name: "xzqiang" })).toEqual(true);
 		expect(Framework.isPlainObject(true)).toEqual(false);
 		expect(Framework.isPlainObject(12)).toEqual(false);
 		expect(Framework.isPlainObject([])).toEqual(false);
-		expect(Framework.isPlainObject(function() {})).toEqual(false);
+		expect(Framework.isPlainObject(function () { })).toEqual(false);
 
-		var Person = function(name, age) {
+		var Person = function (name, age) {
 			this.name = name;
 			this.age = age;
 		};
@@ -54,9 +54,9 @@ describe("基础接口测试", function() {
 		expect(Framework.isPlainObject(new Person("xuzengqiang", 18))).toEqual(false);
 	});
 
-	it("Framework.extend", function() {
+	it("Framework.extend", function () {
 		Framework.extend({
-			hello: function() {
+			hello: function () {
 				return "hello";
 			}
 		});
@@ -66,7 +66,7 @@ describe("基础接口测试", function() {
 		var data1 = Framework.extend(
 			{},
 			{
-				hello: function() {
+				hello: function () {
 					return "hello";
 				}
 			}
@@ -122,25 +122,25 @@ describe("基础接口测试", function() {
 		expect(searchUser3.info.age).toEqual(18);
 	});
 
-	it("Framework.inherits", function() {
-		var Person = function(name, age) {
+	it("Framework.inherits", function () {
+		var Person = function (name, age) {
 			this.name = name;
 			this.age = age;
 		};
 
-		Person.prototype.sayHello = function() {
+		Person.prototype.sayHello = function () {
 			return "hello " + this.name;
 		};
 
 		var Student = Framework.inherits(
 			Person,
 			{
-				eat: function(food) {
+				eat: function (food) {
 					return this.name + "在吃" + food;
 				}
 			},
 			{
-				learn: function() {
+				learn: function () {
 					return "learn";
 				}
 			}
@@ -153,14 +153,14 @@ describe("基础接口测试", function() {
 		expect(Student.learn()).toEqual("learn");
 	});
 
-	it("Framework.create", function() {
+	it("Framework.create", function () {
 		var Person = Framework.create();
 		Person.prototype.extend({
-			initialize: function(name, age) {
+			initialize: function (name, age) {
 				this.name = name;
 				this.age = age;
 			},
-			sleep() {
+			sleep () {
 				return "sleep:" + this.name;
 			},
 			leave: 1
@@ -185,14 +185,14 @@ describe("基础接口测试", function() {
 			Person,
 			Framework.extend(
 				{
-					learn() {
+					learn () {
 						return "learn:" + this.name;
 					}
 				},
 				protos
 			),
 			{
-				say: function() {
+				say: function () {
 					return "say";
 				}
 			}
@@ -217,7 +217,7 @@ describe("基础接口测试", function() {
 		expect(student2.name).toEqual("wuyue");
 
 		var Oarray = Framework.create(Array, {
-			contains: function(value) {
+			contains: function (value) {
 				var length = this.length;
 				for (var i = 0; i < length; i++) {
 					if (this[i] === value) {

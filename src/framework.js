@@ -1,6 +1,8 @@
 define([
 	'./define',
-	'./utils'
+	'./utils',
+	'./string',
+	'./class'
 ], function (Framework) {
 	'use strict'
 

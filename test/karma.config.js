@@ -5,7 +5,7 @@
  * @date 2018-05-01 04:33:25
  * @version 1.0.0
  */
-module.exports = function(config) {
+module.exports = function (config) {
 	config.set({
 		/**
 		 * 基础路径
@@ -23,7 +23,7 @@ module.exports = function(config) {
 		/**
 		 * 需要加载到浏览器的文件列表
 		 */
-		files: ["../src/framework.js", "unit/*.spec.js"],
+		files: ["../dist/framework.js", "unit/*.spec.js"],
 
 		/**
 		 * 需要排除的文件列表
