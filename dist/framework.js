@@ -2,7 +2,7 @@
  * @copyright www.wicoder.net
  * @fileOverview: wrapper.js
  * @author: xuzengqiang
- * @date: 2018-07-09 20:47:08
+ * @date: 2018-07-09 20:50:32
  */
 
 ; (function (global, factory) {
@@ -173,6 +173,19 @@
 	var __isDate = Framework.isType('Date')
 	Framework.isDate = function isDate (date) {
 		return __isDate(date) && date.toString() !== 'Invalid Date' && !isNaN(date)
+	}
+
+
+
+	/**
+	 * 判断是否为XML文档
+	 * @author xuzengqiang
+	 * @date 2018-07-09 20:49:08
+	 * @since 1.0.0
+	 */
+	Framework.isXML = function isXML (element) {
+		var documentElement = element && (element.ownerElement || element).documentElement
+		return documentElement ? documentElement.nodeName !== 'HTML' : false
 	}
 
 
