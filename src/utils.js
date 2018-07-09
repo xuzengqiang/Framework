@@ -7,7 +7,8 @@ define([
 	'./utils/isUndefined',
 	'./utils/isNumber',
 	'./utils/isInt',
-	'./utils/isEmptyObject'
+	'./utils/isEmptyObject',
+	'./utils/isDate'
 ], function () {
 	'use strict'
 })
