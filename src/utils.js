@@ -9,7 +9,8 @@ define([
 	'./utils/isInt',
 	'./utils/isEmptyObject',
 	'./utils/isDate',
-	'./utils/isXML'
+	'./utils/isXML',
+	'./utils/isObject'
 ], function () {
 	'use strict'
 })

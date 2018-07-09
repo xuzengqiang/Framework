@@ -6,6 +6,7 @@ define([
 	'../utils/isString',
 	'../utils/isPlainObject',
 	'../utils/isArray',
+	'../utils/isObject',
 	'../core',
 	'./inherits'
 ], function (Framework, __inherits) {
@@ -91,7 +92,7 @@ define([
 						var _super = noop
 
 						// 如果存在有效的父类
-						if (this.__super__ && Framework.isFunction(this.__super__) && this.__super__.prototype && Framework.isObject(this.__super__.prototype)) {
+						if (this.__super__ && Framework.isFunction(this.__super__) && Framework.isObject(this.__super__.prototype)) {
 							var superClass = this.__super__.prototype
 							// 如果父类上存在该方法
 							if (Framework.isFunction(superClass[property])) {

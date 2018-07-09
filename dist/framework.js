@@ -2,7 +2,7 @@
  * @copyright www.wicoder.net
  * @fileOverview: wrapper.js
  * @author: xuzengqiang
- * @date: 2018-07-09 20:50:32
+ * @date: 2018-07-09 20:54:38
  */
 
 ; (function (global, factory) {
@@ -186,6 +186,19 @@
 	Framework.isXML = function isXML (element) {
 		var documentElement = element && (element.ownerElement || element).documentElement
 		return documentElement ? documentElement.nodeName !== 'HTML' : false
+	}
+
+
+
+	/**
+	 * 判断是否为对象
+	 * @param {mixed} obj - 需要验证的对象
+	 * @date 2018-07-09 20:52:09
+	 * @since 1.0.0
+	 */
+	Framework.isObject = function isObject (obj) {
+		var type = typeof obj
+		return type === 'function' || type === 'object' && !!obj
 	}
 
 
@@ -424,7 +437,7 @@
 						var _super = noop
 
 						// 如果存在有效的父类
-						if (this.__super__ && Framework.isFunction(this.__super__) && this.__super__.prototype && Framework.isObject(this.__super__.prototype)) {
+						if (this.__super__ && Framework.isFunction(this.__super__) && Framework.isObject(this.__super__.prototype)) {
 							var superClass = this.__super__.prototype
 							// 如果父类上存在该方法
 							if (Framework.isFunction(superClass[property])) {
