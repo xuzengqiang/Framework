@@ -2,7 +2,7 @@
  * @copyright www.wicoder.net
  * @fileOverview: wrapper.js
  * @author: xuzengqiang
- * @date: 2018-07-09 20:54:38
+ * @date: 2018-07-09 22:03:31
  */
 
 ; (function (global, factory) {
@@ -215,6 +215,9 @@
 	}
 
 
+	function a () {
+		return 'hlllll'
+	}
 
 
 

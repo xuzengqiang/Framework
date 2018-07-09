@@ -5,6 +5,7 @@
  */
 
 module.exports = function (grunt) {
+
 	var requirejs = require('requirejs'),
 		rdefineEnd = /\}\s*?\)[^}\w]*$/,
 		moment = require('moment'),
@@ -72,6 +73,7 @@ module.exports = function (grunt) {
 	grunt.task.registerTask('builder', function () {
 		var done = this.async()
 		var version = grunt.config('pkg.version')
+		var buildPath = 'dist/' + grunt.config('pkg.name') + '.js'
 
 		/**
 		 * 最终输出的时候会执行
@@ -85,10 +87,14 @@ module.exports = function (grunt) {
 				.replace(/(@VERSION@)/g, version)
 				.replace(/(@DATE@)/g, moment(new Date()).format('YYYY-MM-DD HH:mm:ss'))
 
-			grunt.file.write('dist/framework.js', compiled)
+			grunt.file.write(buildPath, compiled)
 		}
 
 		requirejs.optimize(config, function (buildResponse) {
+			grunt.log.oklns('framework.js created.')
+
+			// 自动运行压缩命令
+			grunt.task.run(['uglify'])
 			done()
 		}, function (error) {
 			done(error)

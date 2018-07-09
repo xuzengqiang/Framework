@@ -17,20 +17,11 @@ module.exports = function (grunt) {
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 
-		// build: {
-		// 	options: {
-		// 		name: 'framework'
-		// 	},
-		// 	all: {
-		// 		dist: 'build/framework.js'
-		// 	}
-		// },
-
 		uglify: {
 			all: {
 				files: {
-					'dist/framework.min.js':
-						'dist/framework.js'
+					'dist/<%= pkg.name %>.min.js':
+						'dist/<%= pkg.name %>.js'
 				}
 			},
 			options: {
@@ -60,7 +51,7 @@ module.exports = function (grunt) {
 				 * 2、自动生成压缩代码
 				 * 3、删除concat任务
 				 */
-				tasks: ['build', 'uglify'],
+				tasks: ['builder'],
 				options: {
 					spawn: false
 				}
@@ -109,6 +100,11 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-karma')
 
 	/**
+	 * 加载eslint组件
+	 */
+	grunt.loadNpmTasks('grunt-eslint')
+
+	/**
 	 * 加载文件合并插件
 	 * grunt.loadNpmTasks('grunt-contrib-concat')
 	 * @deprecated
@@ -134,5 +130,5 @@ module.exports = function (grunt) {
 	 * @date 2018-07-05 12:30:35
 	 * @since 1.0.1
 	 */
-	grunt.registerTask('build', ['build'])
+	grunt.registerTask('build', ['builder'])
 }
