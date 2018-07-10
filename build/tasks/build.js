@@ -91,7 +91,7 @@ module.exports = function (grunt) {
 		}
 
 		requirejs.optimize(config, function (buildResponse) {
-			grunt.log.oklns('framework.js created.')
+			grunt.log.oklns(grunt.config('pkg.name') + '.js created.')
 
 			// 自动运行压缩命令
 			grunt.task.run(['uglify'])
