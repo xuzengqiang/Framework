@@ -111,7 +111,13 @@ module.exports = function (grunt) {
 	})
 
 	/**
-	 *
+	 * 加载从npm安装的grunt任务
+	 * @description
+	 * 相当于:
+	 * grunt.loadNpmTask('grunt-contrib-uglify')
+	 * grunt.loadNpmTask('grunt-contrib-watch')
+	 * grunt.loadNpmTasks('grunt-eslint')
+	 * ...
 	 */
 	require('load-grunt-tasks')(grunt)
 
@@ -122,49 +128,20 @@ module.exports = function (grunt) {
 	grunt.loadTasks('build/tasks')
 
 	/**
-	 * 使用Uglify插件
-	 * @since 1.0.0
-	 */
-	grunt.loadNpmTasks('grunt-contrib-uglify')
-
-	/**
-	 * 使用Watch插件
-	 * @since 1.0.0
-	 */
-	grunt.loadNpmTasks('grunt-contrib-watch')
-
-	/**
-	 * 使用Karma插件
-	 * @since 1.0.0
-	 */
-	grunt.loadNpmTasks('grunt-karma')
-
-	/**
-	 * 加载eslint组件
-	 * @date 2018-07-10 10:38:09
-	 */
-	grunt.loadNpmTasks('grunt-eslint')
-
-	/**
-	 * 新增compare_size组件
-	 * @date 2018-07-10 15:25:07
-	 */
-	grunt.loadNpmTasks('grunt-compare-size')
-
-	/**
 	 * 加载文件合并插件
 	 * grunt.loadNpmTasks('grunt-contrib-concat')
 	 * @deprecated
 	 * @description 采用r.js合并文件
 	 */
 
-	// grunt.registerTask('default', ['watch'])
-
 	/**
 	 * 执行grunt unit命令时自动执行karma插件
 	 * @since 1.0.0
 	 */
-	grunt.registerTask('unit', ['karma'])
+	grunt.registerTask('unit', [
+		'watch',
+		'karma'
+	])
 
 	/**
 	 * 项目启动命令
