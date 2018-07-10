@@ -7,8 +7,9 @@ define([
 	/**
 	 * 创建一个对象
 	 * @private
-	 * @param {Object} klass - 对象
+	 * @param {Object} klass 对象
 	 * @description 同Object.create
+	 * @return {Object} 创建的对象
 	 */
 	function createObject (klass) {
 		if (Object.create) {
@@ -22,13 +23,13 @@ define([
 	/**
 	 * 继承
 	 * @private
-	 * @author xuzengqiang
 	 * @date 2018-5-3 00:42:26
 	 * @param {Object} Super 父类
 	 * @param {Object} Child 子类
 	 * @param {Object|Function} protos - 子类或者对象。如果对象中包含constructor，子类将是用此属性值。
 	 * @param {Object} staticProtos - 静态属性或方法
 	 * @since 1.0.0
+	 * @return {Object} 继承的对象
 	 */
 	function __inherits (Super, Child, protos, staticProtos) {
 		var copyPrototype = createObject(Super)

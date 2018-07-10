@@ -15,10 +15,10 @@ define([
 	/**
 	 * 类的创建,并自动执行initialize()方法
 	 * @date 2016-11-18 10:26:12
-	 * @param {Object} [Super] - 需要继承的父类
-	 * @param {Object} [protos] - 原型方法
-	 * @param {Object} [staticProtos] - 静态方法.
-	 * @return 如果返回false,那么表示对象创建失败.
+	 * @param {Object} [Super] 需要继承的父类
+	 * @param {Object} [protos] 原型方法
+	 * @param {Object} [staticProtos] 静态方法.
+	 * @return {Object} 创建的对象
 	 * @since 1.0.0
 	 */
 	Framework.create = function (Super, protos, staticProtos) {
@@ -32,8 +32,9 @@ define([
 
 		/**
 		 * 新增静态方法拷贝
-		 * @author xuzengqiang
+		 * @param {Object} [staticProtos] 静态属性
 		 * @date 2017-6-29 17:40:01
+		 * @return {void}
 		 * @since 1.1.0
 		 */
 		Class.extend = function (staticProtos) {
@@ -58,24 +59,25 @@ define([
 
 		/**
 		 * 新增原型方法拷贝
-		 * @param {Object|String} protos - 原型方法列表或者名称
-		 * @param {Function} method - 单个方法
-		 * @author xuzengqiang
+		 * @param {Object|String} protos 原型方法列表或者名称
+		 * @param {Function} method 单个方法
 		 * @date 2017-6-29 14:13:14
 		 * @since 1.1.0
+		 * @example
 		 * var Animal = Framework.create();
 		 * Animal.prototype.extend({
 		 *     initialize:function(){}
 		 * });
 		 * or
 		 * Animal.prototype.extend('initialize', function(){});
+		 * @return {void}
 		 */
 		Class.prototype.extend = function (protos, method) {
 			protos = protos || {}
 
 			if (Framework.isString(protos)) {
 				var property = protos.trim()
-				if (!property) return
+				if (!property) { return }
 
 				/**
 				 * 如果是对象或者数组,需要进行深拷贝

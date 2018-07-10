@@ -30,8 +30,8 @@ module.exports = function (grunt) {
 					'/**\n' +
 					' * @copyright www.wicoder.net \n' +
 					' * @fileOverview <%= pkg.name %> v<%= pkg.version %> \n' +
-					' * @date <%= grunt.template.today(\'yyyy-mm-dd HH:mm:ss\') %> \n' +
 					' * @author xuzengqiang <25394113@qq.com>\n' +
+					' * @date <%= grunt.template.today(\'yyyy-mm-dd HH:mm:ss\') %> \n' +
 					' */\n'
 			}
 		},
@@ -67,6 +67,22 @@ module.exports = function (grunt) {
 				configFile: 'test/karma.config.js'
 				// singleRun: true
 			}
+		},
+
+		/**
+		 * eslint任务
+		 * @date 2018-07-10 10:39:18
+		 * @since 1.0.0
+		 */
+		eslint: {
+			options: {
+
+			},
+			target: [
+				'src/*.js',
+				'Gruntfile.js',
+				'build/**/*.js'
+			]
 		}
 	})
 
@@ -101,6 +117,7 @@ module.exports = function (grunt) {
 
 	/**
 	 * 加载eslint组件
+	 * @date 2018-07-10 10:38:09
 	 */
 	grunt.loadNpmTasks('grunt-eslint')
 
@@ -122,13 +139,20 @@ module.exports = function (grunt) {
 	/**
 	 * 项目启动命令
 	 * @since 1.0.0
+	 * @description
+	 * 1、新增eslint任务
 	 */
-	grunt.registerTask('start', ['watch'])
+	grunt.registerTask('start', [
+		'watch',
+		'eslint'
+	])
 
 	/**
 	 * 新增代码打包命令
 	 * @date 2018-07-05 12:30:35
 	 * @since 1.0.1
 	 */
-	grunt.registerTask('build', ['builder'])
+	grunt.registerTask('build', [
+		'builder'
+	])
 }

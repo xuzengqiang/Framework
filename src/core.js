@@ -8,10 +8,10 @@ define([
 
 	/**
 	 * 对象拷贝
-	 * @author xuzengqiang
 	 * @date 2016-10-27 21:22:50
 	 * @since 1.0.0
 	 * @see jQuery.extend
+	 * @return {Object} 拷贝的对象
 	 */
 	Framework.extend = function () {
 		var options,
@@ -42,7 +42,7 @@ define([
 		}
 
 		for (; i < length; i++) {
-			if ((options = arguments[i]) != null) {
+			if ((options = arguments[i]) !== null) {
 				for (name in options) {
 					src = target[name]
 					copy = options[name]

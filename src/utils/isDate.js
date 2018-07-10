@@ -6,7 +6,7 @@ define([
 
 	/**
 	 * 判断对象是否为时间
-	 * @author xuzengqiang
+	 * @param {mixed} date - 需要验证的对象
 	 * @date 2018-07-09 20:44:48
 	 * @since 1.0.0
 	 */

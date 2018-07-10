@@ -6,8 +6,9 @@ define([
 
 	/**
 	 * 判断是否为正整数
-	 * @param {mixed} number - 需要验证的数据
+	 * @param {mixed} number 需要验证的数据
 	 * @since 1.0.0
+	 * @return {Boolean} true/false
 	 */
 	Framework.isInt = function isInt (number) {
 		return rint.test(number)

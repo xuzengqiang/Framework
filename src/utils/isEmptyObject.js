@@ -5,8 +5,9 @@ define([
 
 	/**
 	 * 判断是否为一个空的obj
-	 * @param {mixed} obj - 需要验证的对象
+	 * @param {mixed} obj 需要验证的对象
 	 * @since 1.0.0
+	 * @return {Boolean} 判断值
 	 */
 	Framework.isEmptyObject = function isEmptyObject (obj) {
 		var property

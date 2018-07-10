@@ -1,7 +1,8 @@
-/*
- * @fileOverview: 代码构建
- * @author: xuzengqiang
- * @date: 2018-07-03 11:19:53
+/**
+ * @fileoverview 代码构建
+ * @author xuzengqiang
+ * @date 2018-07-03 11:19:53
+ * @version 1.0.0
  */
 
 module.exports = function (grunt) {
@@ -13,7 +14,8 @@ module.exports = function (grunt) {
 
 		/**
 		 * 读取src目录下的指定文件
-		 * @param {String} fileName - 文件名称
+		 * @param {String} fileName 文件名称
+		 * @return {String} 文件内容
 		 */
 		read = function (fileName) {
 			return grunt.file.read(srcFloder + fileName)
@@ -39,9 +41,10 @@ module.exports = function (grunt) {
 			skipModuleInsertion: true,
 			/**
 			 * 当每个文件读取的时候回调用这个方法
-			 * @param {String} moduleName - 模块名称
-			 * @param {String} path - 路径
-			 * @param {String} contents - 文本内容
+			 * @param {String} moduleName 模块名称
+			 * @param {String} path 路径
+			 * @param {String} contents 文本内容
+			 * @return {String} 返回模块内容
 			 */
 			onBuildWrite: function (moduleName, path, contents) {
 				// 如果是变量
@@ -77,12 +80,12 @@ module.exports = function (grunt) {
 
 		/**
 		 * 最终输出的时候会执行
-		 * @param {String} compiled - 最终编译后的代码
+		 * @param {String} compiled 最终编译后的代码
 		 * @description
 		 * 1、替换版本号
+		 * @return {void}
 		 */
 		config.out = function (compiled) {
-
 			compiled = compiled
 				.replace(/(@VERSION@)/g, version)
 				.replace(/(@DATE@)/g, moment(new Date()).format('YYYY-MM-DD HH:mm:ss'))

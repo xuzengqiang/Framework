@@ -6,8 +6,9 @@ define([
 
 	/**
 	 * 判断是否为数字
-	 * @param {mixed} number - 需要验证的数据
+	 * @param {mixed} number 需要验证的数据
 	 * @since 1.0.0
+	 * @return {Boolean} true/false
 	 */
 	Framework.isNumber = function isNumber (number) {
 		return (

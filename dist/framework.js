@@ -2,7 +2,7 @@
  * @copyright www.wicoder.net
  * @fileOverview: wrapper.js
  * @author: xuzengqiang
- * @date: 2018-07-10 10:32:47
+ * @date: 2018-07-10 14:26:29
  */
 
 ; (function (global, factory) {
@@ -41,10 +41,11 @@
 
 	/**
 	 * 根据type生成类型判断方法
-	 * @param {String} type - 类型名称
+	 * @param {String} type 类型名称
 	 * @example
 	 * var isString = Framework.isType('String')
 	 * isString('abc') => true
+	 * @return {Boolean} true/false
 	 */
 	Framework.isType = function isType (type) {
 		return function (obj) {
@@ -56,8 +57,9 @@
 
 	/**
 	 * 判断是否为一个方法
-	 * @author: xuzengqiang
-	 * @date: 2018-07-03 14:48:44
+	 * @date 2018-07-03 14:48:44
+	 * @param {mixed} obj 需要校验的对象
+	 * @return {Boolean} true/false
 	 */
 	Framework.isFunction = function isFunction (obj) {
 		return typeof obj === 'function' && typeof obj.nodeType !== 'number'
@@ -67,7 +69,7 @@
 
 	/**
 	 * 判断是否为一个数组
-	 * @param {mixed} array - 需要验证的对象
+	 * @param {mixed} array 需要验证的对象
 	 * @since 1.0.0
 	 */
 	var __isArray = Framework.isType('Array')
@@ -79,9 +81,11 @@
 
 	/**
    * 判断是否为一个纯粹的对象
-   * @param {mixed} obj - 需要验证的对象
+   * @param {mixed} obj 需要验证的对象
    * @since 1.0.0
    * @see jQuery.isPlainObject
+	 * @return {Boolean} true/false
+	 * @example
    */
 	Framework.isPlainObject = function isPlainObject (obj) {
 		var proto, Ctor
@@ -115,9 +119,10 @@
 
 	/**
 	 * 判断对象是否为undefined
-	 * @param {mixed} obj - 需要验证的对象
+	 * @param {mixed} obj 需要验证的对象
 	 * @date 2018-07-07 19:03:41
 	 * @since 1.0.0
+	 * @return {Boolean} true/false
 	 */
 	Framework.isUndefined = function isUndefined (obj) {
 		return obj === void 0
@@ -127,8 +132,9 @@
 
 	/**
 	 * 判断是否为数字
-	 * @param {mixed} number - 需要验证的数据
+	 * @param {mixed} number 需要验证的数据
 	 * @since 1.0.0
+	 * @return {Boolean} true/false
 	 */
 	Framework.isNumber = function isNumber (number) {
 		return (
@@ -140,8 +146,9 @@
 
 	/**
 	 * 判断是否为正整数
-	 * @param {mixed} number - 需要验证的数据
+	 * @param {mixed} number 需要验证的数据
 	 * @since 1.0.0
+	 * @return {Boolean} true/false
 	 */
 	Framework.isInt = function isInt (number) {
 		return rint.test(number)
@@ -151,8 +158,9 @@
 
 	/**
 	 * 判断是否为一个空的obj
-	 * @param {mixed} obj - 需要验证的对象
+	 * @param {mixed} obj 需要验证的对象
 	 * @since 1.0.0
+	 * @return {Boolean} 判断值
 	 */
 	Framework.isEmptyObject = function isEmptyObject (obj) {
 		var property
@@ -166,7 +174,7 @@
 
 	/**
 	 * 判断对象是否为时间
-	 * @author xuzengqiang
+	 * @param {mixed} date - 需要验证的对象
 	 * @date 2018-07-09 20:44:48
 	 * @since 1.0.0
 	 */
@@ -179,9 +187,10 @@
 
 	/**
 	 * 判断是否为XML文档
-	 * @author xuzengqiang
+	 * @param {mixed} element 需要验证的元素
 	 * @date 2018-07-09 20:49:08
 	 * @since 1.0.0
+	 * @return {Boolean} true/false
 	 */
 	Framework.isXML = function isXML (element) {
 		var documentElement = element && (element.ownerElement || element).documentElement
@@ -192,9 +201,10 @@
 
 	/**
 	 * 判断是否为对象
-	 * @param {mixed} obj - 需要验证的对象
+	 * @param {mixed} obj 需要验证的对象
 	 * @date 2018-07-09 20:52:09
 	 * @since 1.0.0
+	 * @return {Boolean} true/false
 	 */
 	Framework.isObject = function isObject (obj) {
 		var type = typeof obj
@@ -208,6 +218,7 @@
 	/**
 	 * 过滤掉字符串的前后空格
 	 * @param {mixed} string - 字符串
+	 * @return {String} 过滤空格后的字符串
 	 */
 	Framework.trim = function trim (string) {
 		return Framework.isUndefined(string) || string === null ?
@@ -215,18 +226,15 @@
 	}
 
 
-	function a () {
-		return 'hlllll'
-	}
 
 
 
 	/**
 	 * 对象拷贝
-	 * @author xuzengqiang
 	 * @date 2016-10-27 21:22:50
 	 * @since 1.0.0
 	 * @see jQuery.extend
+	 * @return {Object} 拷贝的对象
 	 */
 	Framework.extend = function () {
 		var options,
@@ -257,7 +265,7 @@
 		}
 
 		for (; i < length; i++) {
-			if ((options = arguments[i]) != null) {
+			if ((options = arguments[i]) !== null) {
 				for (name in options) {
 					src = target[name]
 					copy = options[name]
@@ -292,8 +300,9 @@
 	/**
 	 * 创建一个对象
 	 * @private
-	 * @param {Object} klass - 对象
+	 * @param {Object} klass 对象
 	 * @description 同Object.create
+	 * @return {Object} 创建的对象
 	 */
 	function createObject (klass) {
 		if (Object.create) {
@@ -307,13 +316,13 @@
 	/**
 	 * 继承
 	 * @private
-	 * @author xuzengqiang
 	 * @date 2018-5-3 00:42:26
 	 * @param {Object} Super 父类
 	 * @param {Object} Child 子类
 	 * @param {Object|Function} protos - 子类或者对象。如果对象中包含constructor，子类将是用此属性值。
 	 * @param {Object} staticProtos - 静态属性或方法
 	 * @since 1.0.0
+	 * @return {Object} 继承的对象
 	 */
 	function __inherits (Super, Child, protos, staticProtos) {
 		var copyPrototype = createObject(Super)
@@ -336,10 +345,11 @@
 	 * @public
 	 * @author xuzengqiang
 	 * @date 2016-11-18 10:26:18
-	 * @param  {Class} super 父类
-	 * @param  {Object|Function} protos - 子类或者对象。如果对象中包含constructor，子类将是用此属性值。
-	 * @param  {Object} staticProtos - 静态属性或方法
+	 * @param {Class} Super 父类
+	 * @param {Object|Function} protos 子类或者对象。如果对象中包含constructor，子类将是用此属性值。
+	 * @param {Object} staticProtos 静态属性或方法
 	 * @since 1.0.0
+	 * @return {Object} 继承的对象
 	 */
 	Framework.inherits = function inherits (Super, protos, staticProtos) {
 		var child
@@ -363,10 +373,10 @@
 	/**
 	 * 类的创建,并自动执行initialize()方法
 	 * @date 2016-11-18 10:26:12
-	 * @param {Object} [Super] - 需要继承的父类
-	 * @param {Object} [protos] - 原型方法
-	 * @param {Object} [staticProtos] - 静态方法.
-	 * @return 如果返回false,那么表示对象创建失败.
+	 * @param {Object} [Super] 需要继承的父类
+	 * @param {Object} [protos] 原型方法
+	 * @param {Object} [staticProtos] 静态方法.
+	 * @return {Object} 创建的对象
 	 * @since 1.0.0
 	 */
 	Framework.create = function (Super, protos, staticProtos) {
@@ -380,8 +390,9 @@
 
 		/**
 		 * 新增静态方法拷贝
-		 * @author xuzengqiang
+		 * @param {Object} [staticProtos] 静态属性
 		 * @date 2017-6-29 17:40:01
+		 * @return {void}
 		 * @since 1.1.0
 		 */
 		Class.extend = function (staticProtos) {
@@ -406,24 +417,25 @@
 
 		/**
 		 * 新增原型方法拷贝
-		 * @param {Object|String} protos - 原型方法列表或者名称
-		 * @param {Function} method - 单个方法
-		 * @author xuzengqiang
+		 * @param {Object|String} protos 原型方法列表或者名称
+		 * @param {Function} method 单个方法
 		 * @date 2017-6-29 14:13:14
 		 * @since 1.1.0
+		 * @example
 		 * var Animal = Framework.create();
 		 * Animal.prototype.extend({
 		 *     initialize:function(){}
 		 * });
 		 * or
 		 * Animal.prototype.extend('initialize', function(){});
+		 * @return {void}
 		 */
 		Class.prototype.extend = function (protos, method) {
 			protos = protos || {}
 
 			if (Framework.isString(protos)) {
 				var property = protos.trim()
-				if (!property) return
+				if (!property) { return }
 
 				/**
 				 * 如果是对象或者数组,需要进行深拷贝

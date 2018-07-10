@@ -10,10 +10,11 @@ define([
 	 * @public
 	 * @author xuzengqiang
 	 * @date 2016-11-18 10:26:18
-	 * @param  {Class} super 父类
-	 * @param  {Object|Function} protos - 子类或者对象。如果对象中包含constructor，子类将是用此属性值。
-	 * @param  {Object} staticProtos - 静态属性或方法
+	 * @param {Class} Super 父类
+	 * @param {Object|Function} protos 子类或者对象。如果对象中包含constructor，子类将是用此属性值。
+	 * @param {Object} staticProtos 静态属性或方法
 	 * @since 1.0.0
+	 * @return {Object} 继承的对象
 	 */
 	Framework.inherits = function inherits (Super, protos, staticProtos) {
 		var child

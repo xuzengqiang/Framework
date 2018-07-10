@@ -7,9 +7,11 @@ define([
 
 	/**
    * 判断是否为一个纯粹的对象
-   * @param {mixed} obj - 需要验证的对象
+   * @param {mixed} obj 需要验证的对象
    * @since 1.0.0
    * @see jQuery.isPlainObject
+	 * @return {Boolean} true/false
+	 * @example
    */
 	Framework.isPlainObject = function isPlainObject (obj) {
 		var proto, Ctor
