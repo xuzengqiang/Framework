@@ -140,6 +140,7 @@ module.exports = function (grunt) {
 	 */
 	grunt.registerTask('unit', [
 		'watch',
+		'eslint',
 		'karma'
 	])
 
