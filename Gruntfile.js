@@ -4,12 +4,15 @@
  * @author xuzengqiang <253948113@qq.com>
  * @date 2018-04-30 07:14:22
  * @version 1.0.0
+ * @param {Object} grunt grunt
+ * @return {void}
  *
  * @update xuzengqiang
  * @date 2018-07-05 12:11:11
  * @since 1.0.1
  * @description
  * 1、删除concat任务,通过r.js合并文件
+ * @return {void}
  */
 module.exports = function (grunt) {
 	'use strict'
@@ -83,6 +86,27 @@ module.exports = function (grunt) {
 				'Gruntfile.js',
 				'build/**/*.js'
 			]
+		},
+
+		/**
+		 * 新增compare_size任务
+		 * @date 2018-07-10 15:25:32
+		 * @since 1.0.0
+		 * @see {@link https://www.npmjs.com/package/grunt-compare-size}
+		 */
+		compare_size: {
+			files: [
+				'dist/framework.js',
+				'dist/framework.min.js'
+			],
+			options: {
+				cache: '.sizecache.json',
+				compress: {
+					gz: function (fileContents) {
+						return require("gzip-js").zip(fileContents, {}).length;
+					}
+				}
+			}
 		}
 	})
 
@@ -122,6 +146,12 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-eslint')
 
 	/**
+	 * 新增compare_size组件
+	 * @date 2018-07-10 15:25:07
+	 */
+	grunt.loadNpmTasks('grunt-compare-size')
+
+	/**
 	 * 加载文件合并插件
 	 * grunt.loadNpmTasks('grunt-contrib-concat')
 	 * @deprecated
@@ -144,7 +174,8 @@ module.exports = function (grunt) {
 	 */
 	grunt.registerTask('start', [
 		'watch',
-		'eslint'
+		'eslint',
+		'compare_size'
 	])
 
 	/**
@@ -153,6 +184,7 @@ module.exports = function (grunt) {
 	 * @since 1.0.1
 	 */
 	grunt.registerTask('build', [
-		'builder'
+		'builder',
+		'compare_size'
 	])
 }
